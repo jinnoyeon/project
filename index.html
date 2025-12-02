@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>지능정보양자공학과 위키</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            word-break: keep-all;
+        }
+        
+        .bg-noise {
+            background-color: #fcfbf9;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+        }
+
+        .card-hover {
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+        }
+        
+        .text-balance { text-wrap: balance; }
+        
+        /* Page Transition Animations */
+        .page-enter { animation: fadeIn 0.4s ease-out forwards; display: flex; }
+        .page-exit { display: none !important; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Chat Widget Animations */
+        .chat-enter { animation: slideIn 0.3s ease-out forwards; }
+        .chat-exit { animation: slideOut 0.3s ease-in forwards; }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        @keyframes slideOut {
+            from { opacity: 1; transform: translateY(0) scale(1); }
+            to { opacity: 0; transform: translateY(20px) scale(0.95); }
+        }
+        
+        .prose-sm p { margin-bottom: 0.5em; }
+        .prose-sm strong { font-weight: 700; color: #4f46e5; }
+    </style>
+</head>
+<body class="bg-noise text-stone-900 antialiased min-h-screen flex flex-col relative">
+
+    <!-- 상단 네비게이션 -->
+    <nav class="fixed w-full z-50 px-6 py-5 flex justify-between items-center bg-[#fcfbf9]/80 backdrop-blur-md border-b border-stone-200/50">
+        <div class="flex items-center gap-2 cursor-pointer" onclick="goToHome()">
+            <div class="w-3 h-3 bg-indigo-600 rounded-full"></div>
+            <span class="text-lg font-bold tracking-tight text-stone-900">IQE <span class="text-stone-400 font-normal">WIKI</span></span>
+        </div>
+        <div class="hidden md:flex items-center gap-8 text-sm font-medium text-stone-500">
+            <a href="#" class="hover:text-indigo-600 transition-colors">새 문서 만들기</a>
+            <a href="#" class="hover:text-indigo-600 transition-colors">로그인</a>
+            <button class="w-8 h-8 flex items-center justify-center rounded-full bg-stone-900 text-white hover:bg-indigo-600 transition-colors">
+                <i data-lucide="user" class="w-4 h-4"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- [VIEW 1] 메인 페이지 (Home) -->
+    <div id="view-home" class="page-enter w-full flex-grow flex-col">
+        <main class="flex-grow pt-32 pb-20 px-6 max-w-7xl mx-auto w-full">
+            
+            <!-- 히어로 섹션 -->
+            <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-10">
+                <div class="max-w-2xl">
+                    <p class="text-indigo-600 font-bold mb-4 tracking-wide text-sm uppercase">Dept. of Intelligence & Quantum Eng.</p>
+                    <h1 class="text-5xl md:text-7xl font-black leading-[1.1] tracking-tighter text-stone-900 mb-6 text-balance">
+                        지능정보양자공학과<br>
+                        지식 아카이브
+                    </h1>
+                    <p class="text-stone-500 text-lg md:text-xl font-medium max-w-lg leading-relaxed">
+                        학생들을 위한 정보 공유 공간.<br>
+                        강의실 정보부터 진로 가이드까지 한눈에 확인하세요.
+                    </p>
+                </div>
+                <!-- 검색창 -->
+                <div class="w-full md:w-1/3">
+                    <div class="relative group">
+                        <input type="text" class="w-full bg-white border border-stone-200 rounded-none px-6 py-5 text-lg placeholder-stone-400 focus:outline-none focus:border-stone-900 focus:ring-0 transition-all shadow-sm group-hover:shadow-md" placeholder="검색 (예: 양자역학, 제1과학기술관)">
+                        <button class="absolute right-4 top-1/2 -translate-y-1/2 p-2 text-stone-400 hover:text-indigo-600 transition-colors"><i data-lucide="search" class="w-6 h-6"></i></button>
+                    </div>
+                    <div class="mt-3 flex gap-2 text-sm text-stone-500 font-medium">
+                        <span>추천:</span>
+                        <a href="#" class="hover:text-indigo-600 underline decoration-stone-300 underline-offset-4 decoration-1">#졸업요건</a>
+                        <a href="#" class="hover:text-indigo-600 underline decoration-stone-300 underline-offset-4 decoration-1">#Qiskit</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 메인 그리드 -->
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6 min-h-[600px]">
+                
+                <!-- 1. 주요 건물 (Navigation Style) -->
+                <div class="md:col-span-7 bg-stone-100 rounded-[2rem] p-8 relative overflow-hidden card-hover flex flex-col group">
+                    <div class="relative z-10 flex flex-col h-full">
+                        <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center mb-6 shadow-sm text-stone-900">
+                            <i data-lucide="map" class="w-5 h-5"></i>
+                        </div>
+                        <h2 class="text-3xl font-bold mb-2">주요 건물 & 강의실</h2>
+                        <p class="text-stone-500 font-medium mb-8">캠퍼스 내 주요 강의동의 위치와 특징을 확인하세요.</p>
+
+                        <div class="grid gap-3 mt-auto relative z-20">
+                            <button onclick="goToDetail('sci1')" class="flex items-center justify-between w-full p-4 bg-white rounded-xl shadow-sm hover:shadow-md hover:scale-[1.01] transition-all border border-transparent hover:border-indigo-100 group/item cursor-pointer">
+                                <div class="flex items-center gap-4">
+                                    <span class="w-10 h-10 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600 font-bold">1</span>
+                                    <div class="text-left">
+                                        <h3 class="font-bold text-stone-900 group-hover/item:text-indigo-600 transition-colors">제1과학기술관</h3>
+                                        <p class="text-xs text-stone-500">기초 과학 수업, 라운지</p>
+                                    </div>
+                                </div>
+                                <i data-lucide="chevron-right" class="text-stone-300 group-hover/item:text-indigo-500"></i>
+                            </button>
+
+                            <button onclick="goToDetail('sci2')" class="flex items-center justify-between w-full p-4 bg-white rounded-xl shadow-sm hover:shadow-md hover:scale-[1.01] transition-all border border-transparent hover:border-indigo-100 group/item cursor-pointer">
+                                <div class="flex items-center gap-4">
+                                    <span class="w-10 h-10 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600 font-bold">2</span>
+                                    <div class="text-left">
+                                        <h3 class="font-bold text-stone-900 group-hover/item:text-indigo-600 transition-colors">제2과학기술관</h3>
+                                        <p class="text-xs text-stone-500">실험/실습 과목</p>
+                                    </div>
+                                </div>
+                                <i data-lucide="chevron-right" class="text-stone-300 group-hover/item:text-indigo-500"></i>
+                            </button>
+
+                            <button onclick="goToDetail('conf')" class="flex items-center justify-between w-full p-4 bg-white rounded-xl shadow-sm hover:shadow-md hover:scale-[1.01] transition-all border border-transparent hover:border-indigo-100 group/item cursor-pointer">
+                                <div class="flex items-center gap-4">
+                                    <span class="w-10 h-10 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600 font-bold">C</span>
+                                    <div class="text-left">
+                                        <h3 class="font-bold text-stone-900 group-hover/item:text-indigo-600 transition-colors">컨퍼런스홀</h3>
+                                        <p class="text-xs text-stone-500">대형 교양 강의</p>
+                                    </div>
+                                </div>
+                                <i data-lucide="chevron-right" class="text-stone-300 group-hover/item:text-indigo-500"></i>
+                            </button>
+                        </div>
+                    </div>
+                     <!-- 그래픽 요소 -->
+                    <div class="absolute right-0 top-0 w-64 h-64 bg-stone-200/40 rounded-full translate-x-20 -translate-y-20 z-0"></div>
+                </div>
+
+                <!-- 2. 이수 과목 -->
+                <a href="#" class="group md:col-span-5 bg-white border border-stone-100 shadow-sm rounded-[2rem] p-8 relative overflow-hidden card-hover flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start mb-6">
+                            <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-full flex items-center justify-center">
+                                <i data-lucide="book-open" class="w-5 h-5"></i>
+                            </div>
+                            <span class="px-3 py-1 bg-stone-100 rounded-full text-xs font-bold text-stone-600">Curriculum</span>
+                        </div>
+                        <h2 class="text-2xl font-bold mb-2">이수 과목</h2>
+                        <p class="text-stone-500 text-sm">양자역학, 머신러닝, 선형대수.<br>학년별 필수 이수 체계도와 수강 꿀팁.</p>
+                    </div>
+                    <div class="mt-8 flex gap-2 overflow-hidden opacity-50 group-hover:opacity-100 transition-opacity">
+                        <span class="px-2 py-1 border border-stone-200 rounded text-xs text-stone-500">#양자정보</span>
+                        <span class="px-2 py-1 border border-stone-200 rounded text-xs text-stone-500">#AI프로젝트</span>
+                    </div>
+                </a>
+
+                <!-- 3. 교수진 소개 -->
+                <a href="#" class="group md:col-span-5 bg-stone-900 text-white rounded-[2rem] p-8 relative overflow-hidden card-hover flex flex-col">
+                    <div class="relative z-10 h-full flex flex-col justify-between">
+                        <div class="w-12 h-12 bg-stone-800 rounded-full flex items-center justify-center mb-6">
+                            <i data-lucide="graduation-cap" class="w-5 h-5 text-stone-300"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-2xl font-bold mb-2">교수진 & 연구실</h2>
+                            <p class="text-stone-400 text-sm">AI, 양자컴퓨팅, 나노물리 등<br>분야별 교수님 연구 실적 및 랩실 소개.</p>
+                        </div>
+                        <div class="mt-6 flex items-center gap-2 text-stone-500 text-sm group-hover:text-white transition-colors">
+                            <span>Lab Contact</span>
+                            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                        </div>
+                    </div>
+                    <div class="absolute top-0 right-0 w-40 h-40 bg-indigo-600 blur-[80px] opacity-20 group-hover:opacity-40 transition-opacity duration-500"></div>
+                </a>
+
+                <!-- 4. 주요 취업처 -->
+                <a href="#" class="group md:col-span-7 bg-[#EEF2FF] border border-indigo-100 rounded-[2rem] p-8 relative overflow-hidden card-hover flex flex-col sm:flex-row items-start sm:items-center justify-between">
+                    <div class="relative z-10 max-w-sm">
+                        <div class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center mb-6">
+                            <i data-lucide="briefcase" class="w-5 h-5"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold mb-2 text-stone-900">주요 취업처</h2>
+                        <p class="text-stone-600 font-medium text-sm leading-relaxed">
+                            삼성전자, SK하이닉스, 양자연구소, AI 스타트업.<br>
+                            졸업생들이 진출한 기업과 직무 가이드.
+                        </p>
+                    </div>
+                    <div class="mt-6 sm:mt-0 relative">
+                         <div class="w-16 h-16 rounded-full border-2 border-indigo-200 flex items-center justify-center group-hover:bg-indigo-600 group-hover:border-indigo-600 group-hover:text-white transition-all duration-300">
+                            <i data-lucide="arrow-right" class="w-6 h-6"></i>
+                         </div>
+                    </div>
+                </a>
+            </div>
+        </main>
+        
+        <!-- 하단 실시간 정보 -->
+        <div class="border-t border-stone-200 bg-white">
+            <div class="max-w-7xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div>
+                    <h3 class="text-sm font-bold text-stone-400 mb-6 uppercase tracking-wider">실시간 인기 문서</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-center justify-between group cursor-pointer">
+                            <span class="text-lg font-medium text-stone-800 group-hover:underline decoration-1 underline-offset-4">1. 2학년 2학기 전공 시간표 추천</span>
+                            <span class="text-xs text-indigo-600 font-bold bg-indigo-50 px-2 py-1 rounded">HOT</span>
+                        </li>
+                        <li class="flex items-center justify-between group cursor-pointer">
+                            <span class="text-lg font-medium text-stone-800 group-hover:underline decoration-1 underline-offset-4">2. 양자역학1 족보 (중간고사)</span>
+                            <span class="text-xs text-stone-400">▲ 5</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- [VIEW 2] 상세 페이지 (Detail View) -->
+    <div id="view-detail" class="page-exit w-full flex-grow flex-col bg-white">
+        <div class="max-w-5xl mx-auto px-6 pt-32 pb-20 w-full">
+            
+            <!-- Back Button -->
+            <button onclick="goToHome()" class="flex items-center gap-2 text-stone-500 hover:text-indigo-600 mb-8 group transition-colors">
+                <div class="w-8 h-8 rounded-full bg-stone-100 flex items-center justify-center group-hover:bg-indigo-100 transition-colors">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                </div>
+                <span class="font-medium">메인으로 돌아가기</span>
+            </button>
+
+            <!-- Detail Content Header -->
+            <div class="flex flex-col md:flex-row gap-6 items-start justify-between mb-12 border-b border-stone-100 pb-8">
+                <div>
+                    <div class="inline-block px-3 py-1 bg-indigo-50 text-indigo-600 rounded-full text-xs font-bold mb-4">건물 정보</div>
+                    <h1 id="detail-title" class="text-4xl md:text-5xl font-black text-stone-900 mb-4">건물명</h1>
+                    <p class="text-stone-500 text-lg">지능정보양자공학과 주요 강의동</p>
+                </div>
+                <div class="flex gap-2">
+                    <button class="px-4 py-2 border border-stone-200 rounded-lg text-sm font-medium hover:bg-stone-50">편집</button>
+                    <button class="px-4 py-2 bg-stone-900 text-white rounded-lg text-sm font-medium hover:bg-indigo-600 transition-colors">공유하기</button>
+                </div>
+            </div>
+
+            <!-- Detail Content Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                
+                <!-- Left: Description -->
+                <div>
+                    <h3 class="text-xl font-bold text-stone-800 mb-6 flex items-center gap-2">
+                        <i data-lucide="info" class="w-5 h-5 text-indigo-500"></i> 상세 정보
+                    </h3>
+                    <div id="detail-desc" class="prose prose-lg text-stone-600 leading-relaxed">
+                        <!-- Content will be injected here -->
+                    </div>
+                    
+                    <div class="mt-8 p-6 bg-stone-50 rounded-2xl border border-stone-100">
+                        <h4 class="font-bold text-stone-800 mb-2">💡 Tip</h4>
+                        <p class="text-sm text-stone-500">해당 건물의 강의실 배정은 매 학기 변경될 수 있으니, 수강신청 전 포털에서 강의실 호수를 반드시 확인하세요.</p>
+                    </div>
+                </div>
+
+                <!-- Right: Map Visualization -->
+                <div>
+                    <h3 class="text-xl font-bold text-stone-800 mb-6 flex items-center gap-2">
+                        <i data-lucide="map-pin" class="w-5 h-5 text-indigo-500"></i> 위치 안내
+                    </h3>
+                    <div class="bg-stone-100 rounded-2xl p-6 h-[400px] relative overflow-hidden border border-stone-200 shadow-inner flex items-center justify-center">
+                        <!-- Abstract Map -->
+                        <div class="relative w-[300px] h-[300px]">
+                            <!-- Roads -->
+                            <div class="absolute top-[100px] left-0 w-full h-8 bg-stone-200 rotate-12"></div>
+                            <div class="absolute top-0 right-[100px] w-8 h-full bg-stone-200 rotate-12"></div>
+                            
+                            <!-- Buildings -->
+                            <div id="map-pin-sci1" class="absolute top-[50px] left-[50px] w-24 h-20 bg-stone-300 rounded-xl flex items-center justify-center text-stone-500 font-bold text-xs transition-all duration-500">제1과기</div>
+                            <div id="map-pin-sci2" class="absolute top-[80px] right-[40px] w-20 h-24 bg-stone-300 rounded-xl flex items-center justify-center text-stone-500 font-bold text-xs transition-all duration-500">제2과기</div>
+                            <div id="map-pin-conf" class="absolute bottom-[60px] left-[80px] w-32 h-16 bg-stone-300 rounded-xl flex items-center justify-center text-stone-500 font-bold text-xs transition-all duration-500">컨퍼런스홀</div>
+                        </div>
+                        
+                        <!-- Map Controls (Fake) -->
+                        <div class="absolute bottom-4 right-4 flex flex-col gap-2">
+                            <button class="w-8 h-8 bg-white rounded shadow text-stone-500 flex items-center justify-center hover:text-indigo-600"><i data-lucide="plus" class="w-4 h-4"></i></button>
+                            <button class="w-8 h-8 bg-white rounded shadow text-stone-500 flex items-center justify-center hover:text-indigo-600"><i data-lucide="minus" class="w-4 h-4"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer (Common) -->
+    <footer class="py-10 border-t border-stone-200 mt-auto bg-white">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center text-xs text-stone-400">
+            <p>&copy; 2024 IQE Wiki Project. Students for Students.</p>
+            <div class="flex gap-6 mt-4 md:mt-0">
+                <a href="#" class="hover:text-stone-900">이용약관</a>
+                <a href="#" class="hover:text-stone-900">문의하기</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Chat Button (Fixed) -->
+    <div class="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-4">
+        <!-- Chat Interface (Hidden) -->
+        <div id="ai-chat-window" class="hidden w-[360px] h-[500px] bg-white rounded-2xl shadow-2xl border border-stone-200 flex flex-col overflow-hidden transition-all transform origin-bottom-right">
+            <div class="bg-indigo-600 p-4 flex justify-between items-center text-white">
+                <div class="flex items-center gap-2">
+                    <div class="bg-white/20 p-1.5 rounded-lg"><i data-lucide="sparkles" class="w-4 h-4"></i></div>
+                    <div><h3 class="font-bold text-sm">IQE AI 튜터</h3><p class="text-[10px] text-indigo-100 opacity-80">Powered by Gemini</p></div>
+                </div>
+                <button onclick="toggleChat()" class="text-white/80 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            <div id="chat-messages" class="flex-1 overflow-y-auto p-4 space-y-4 bg-stone-50 scroll-smooth">
+                <div class="flex gap-3">
+                    <div class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 flex-shrink-0"><i data-lucide="bot" class="w-5 h-5"></i></div>
+                    <div class="bg-white p-3 rounded-2xl rounded-tl-none border border-stone-100 shadow-sm text-sm text-stone-700">
+                        안녕하세요! 지능정보양자공학과 AI 튜터입니다. 👋<br>궁금한 점을 물어보세요!
+                    </div>
+                </div>
+            </div>
+            <div class="p-3 bg-white border-t border-stone-100">
+                <div class="flex gap-2 relative">
+                    <input type="text" id="user-input" class="flex-1 bg-stone-100 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all placeholder-stone-400" placeholder="질문을 입력하세요..." onkeypress="handleKeyPress(event)">
+                    <button onclick="sendMessage()" id="send-btn" class="bg-indigo-600 text-white p-3 rounded-xl hover:bg-indigo-700 transition-colors"><i data-lucide="send" class="w-4 h-4"></i></button>
+                </div>
+            </div>
+        </div>
+        <button onclick="toggleChat()" class="group relative flex items-center justify-center w-14 h-14 bg-indigo-600 text-white rounded-full shadow-xl hover:scale-110 transition-all hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-300">
+            <i data-lucide="sparkles" class="w-6 h-6"></i>
+        </button>
+    </div>
+
+    <script>
+        lucide.createIcons();
+        const apiKey = ""; 
+
+        // --- Data ---
+        const detailData = {
+            'sci1': {
+                title: "제1과학기술관",
+                desc: `
+                    <p class="text-lg font-bold mb-4">"공대생의 시작과 끝"</p>
+                    <p class="mb-4"><strong>일반 물리학, 미적분학</strong> 등 1학년 기초 필수 과목을 수강할 때 가장 많이 이용하는 건물입니다. 신입생이라면 학교 생활의 절반을 이곳에서 보내게 됩니다.</p>
+                    <ul class="list-disc pl-5 space-y-2 mb-4">
+                        <li>1층: 오픈 라운지</li>
+                        <li>2-4층: 대형 강의실 및 교수 연구실</li>
+                        <li>5층: 학과 세미나실</li>
+                    </ul>
+                    <p>건물 앞 벤치는 봄철 벚꽃 명소로도 유명하여 공강 시간에 휴식하기 좋습니다.</p>
+                `,
+                mapId: "map-pin-sci1"
+            },
+            'sci2': {
+                title: "제2과학기술관",
+                desc: `
+                    <p class="text-lg font-bold mb-4">"이론을 현실로"</p>
+                    <p class="mb-4"><strong>실험 및 실습 과목</strong>을 수강할 때 주로 사용되는 건물입니다. 물리 실험, 화학 실험 뿐만 아니라 양자 공학 관련 기초 실험도 이곳에서 진행됩니다.</p>
+                    <ul class="list-disc pl-5 space-y-2 mb-4">
+                        <li>1층: 행정팀 (학사 관련 문의)</li>
+                        <li>2층~: 학부생 실험실 및 실습실</li>
+                    </ul>
+                    <p>안전을 위해 실험 가운 착용이 필수인 구역이 많으니 주의하세요.</p>
+                `,
+                mapId: "map-pin-sci2"
+            },
+            'conf': {
+                title: "컨퍼런스홀",
+                desc: `
+                    <p class="text-lg font-bold mb-4">"지식의 광장"</p>
+                    <p class="mb-4"><strong>선택교양</strong>과 같이 학과 구분 없이 불특정 다수의 인원이 듣는 대규모 수업이 진행됩니다. 외부 초청 강연이나 학술제도 주로 이곳에서 열립니다.</p>
+                    <ul class="list-disc pl-5 space-y-2 mb-4">
+                        <li>대강당: 300석 규모의 계단식 강의실</li>
+                        <li>로비: 포스터 발표 및 전시 공간</li>
+                    </ul>
+                    <p>시험 기간에는 로비의 테이블이 개방되어 스터디 공간으로 활용됩니다.</p>
+                `,
+                mapId: "map-pin-conf"
+            }
+        };
+
+        // --- Navigation Logic ---
+        function goToDetail(id) {
+            console.log("Navigating to:", id); // Debug log
+            if (!detailData[id]) {
+                console.error("No data for ID:", id);
+                return;
+            }
+
+            // 1. Hide Home, Show Detail
+            const homeView = document.getElementById('view-home');
+            const detailView = document.getElementById('view-detail');
+
+            homeView.classList.remove('page-enter');
+            homeView.classList.add('page-exit');
+            
+            detailView.classList.remove('page-exit');
+            detailView.classList.add('page-enter');
+            
+            // 2. Populate Data
+            const data = detailData[id];
+            document.getElementById('detail-title').innerText = data.title;
+            document.getElementById('detail-desc').innerHTML = data.desc;
+
+            // 3. Highlight Map - CORRECTED LOGIC
+            // Reset all pins to inactive state (preserving layout)
+            document.querySelectorAll('[id^="map-pin-"]').forEach(el => {
+                // Remove active classes
+                el.classList.remove('bg-indigo-600', 'text-white', 'shadow-xl', 'scale-110', 'z-10', 'opacity-100');
+                // Add inactive classes
+                el.classList.add('bg-stone-300', 'text-stone-500', 'opacity-50', 'scale-90');
+            });
+            
+            // Activate selected pin
+            const pin = document.getElementById(data.mapId);
+            if(pin) {
+                // Remove inactive classes
+                pin.classList.remove('bg-stone-300', 'text-stone-500', 'opacity-50', 'scale-90');
+                // Add active classes
+                pin.classList.add('bg-indigo-600', 'text-white', 'shadow-xl', 'scale-110', 'z-10', 'opacity-100');
+            }
+
+            // Scroll to top
+            window.scrollTo(0,0);
+        }
+
+        function goToHome() {
+            const homeView = document.getElementById('view-home');
+            const detailView = document.getElementById('view-detail');
+
+            detailView.classList.remove('page-enter');
+            detailView.classList.add('page-exit');
+            
+            homeView.classList.remove('page-exit');
+            homeView.classList.add('page-enter');
+            
+            window.scrollTo(0,0);
+        }
+
+        // --- Chat Logic ---
+        const chatWindow = document.getElementById('ai-chat-window');
+        const chatMessages = document.getElementById('chat-messages');
+        const userInput = document.getElementById('user-input');
+        const sendBtn = document.getElementById('send-btn');
+        let isChatOpen = false;
+
+        function toggleChat() {
+            isChatOpen = !isChatOpen;
+            if (isChatOpen) {
+                chatWindow.classList.remove('hidden');
+                chatWindow.classList.remove('chat-exit');
+                chatWindow.classList.add('chat-enter');
+                setTimeout(() => userInput.focus(), 300);
+            } else {
+                chatWindow.classList.remove('chat-enter');
+                chatWindow.classList.add('chat-exit');
+                setTimeout(() => chatWindow.classList.add('hidden'), 300);
+            }
+        }
+
+        function handleKeyPress(e) { if (e.key === 'Enter') sendMessage(); }
+
+        function appendMessage(role, text) {
+            const isUser = role === 'user';
+            const wrapperDiv = document.createElement('div');
+            wrapperDiv.className = `flex gap-3 ${isUser ? 'justify-end' : ''}`;
+            const iconHtml = isUser ? '' : `<div class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 flex-shrink-0"><i data-lucide="bot" class="w-5 h-5"></i></div>`;
+            const messageStyle = isUser ? 'bg-indigo-600 text-white rounded-tr-none' : 'bg-white border border-stone-100 text-stone-700 rounded-tl-none prose-sm';
+            wrapperDiv.innerHTML = `${isUser ? '' : iconHtml}<div class="p-3 rounded-2xl shadow-sm text-sm max-w-[80%] ${messageStyle}">${text}</div>`;
+            chatMessages.appendChild(wrapperDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            lucide.createIcons();
+        }
+
+        function appendLoading() {
+            const loadingDiv = document.createElement('div');
+            loadingDiv.id = 'loading-indicator';
+            loadingDiv.className = 'flex gap-3';
+            loadingDiv.innerHTML = `<div class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 flex-shrink-0"><i data-lucide="bot" class="w-5 h-5"></i></div><div class="bg-white p-3 rounded-2xl rounded-tl-none border border-stone-100 shadow-sm flex items-center gap-1"><div class="w-2 h-2 bg-indigo-400 rounded-full animate-bounce"></div><div class="w-2 h-2 bg-indigo-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></div><div class="w-2 h-2 bg-indigo-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div></div>`;
+            chatMessages.appendChild(loadingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            lucide.createIcons();
+            return loadingDiv;
+        }
+
+        async function sendMessage() {
+            const text = userInput.value.trim();
+            if (!text) return;
+            appendMessage('user', text);
+            userInput.value = '';
+            userInput.disabled = true;
+            sendBtn.disabled = true;
+            const loadingIndicator = appendLoading();
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{ 
+                                text: `You are a helpful senior AI Tutor for "IQE" (Intelligence & Quantum Eng) at a Korean university. Respond in Korean. Be concise. User Query: ${text}` 
+                            }]
+                        }]
+                    })
+                });
+                if (!response.ok) throw new Error('API Error');
+                const data = await response.json();
+                const aiResponse = data.candidates[0].content.parts[0].text;
+                loadingIndicator.remove();
+                const formattedResponse = aiResponse.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
+                appendMessage('ai', formattedResponse);
+            } catch (error) {
+                loadingIndicator.remove();
+                appendMessage('ai', '죄송합니다. 오류가 발생했습니다. 😓');
+            } finally {
+                userInput.disabled = false;
+                sendBtn.disabled = false;
+                userInput.focus();
+            }
+        }
+    </script>
+</body>
+</html>
