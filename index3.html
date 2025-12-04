@@ -163,22 +163,26 @@
                     </div>
                 </a>
 
-                <a href="#" class="group md:col-span-5 bg-stone-900 text-white rounded-[2rem] p-8 relative overflow-hidden card-hover flex flex-col">
+                <button type="button" onclick="goToProfessors()" 
+                    class="group md:col-span-5 bg-stone-900 text-white rounded-[2rem] p-8 relative overflow-hidden card-hover flex flex-col text-left">
                     <div class="relative z-10 h-full flex flex-col justify-between">
                         <div class="w-12 h-12 bg-stone-800 rounded-full flex items-center justify-center mb-6">
                             <i data-lucide="graduation-cap" class="w-5 h-5 text-stone-300"></i>
                         </div>
                         <div>
                             <h2 class="text-2xl font-bold mb-2">교수진 & 연구실</h2>
-                            <p class="text-stone-400 text-sm">AI, 양자컴퓨팅, 나노물리 등<br>분야별 교수님 연구 실적 및 랩실 소개.</p>
+                            <p class="text-stone-400 text-sm">
+                                AI, 양자컴퓨팅, 나노물리 등<br>
+                                분야별 교수님 연구 실적 및 랩실 소개.
+                            </p>
                         </div>
                         <div class="mt-6 flex items-center gap-2 text-stone-500 text-sm group-hover:text-white transition-colors">
-                            <span>Lab Contact</span>
+                            <span>교수님 목록 보기</span>
                             <i data-lucide="chevron-right" class="w-4 h-4"></i>
                         </div>
                     </div>
                     <div class="absolute top-0 right-0 w-40 h-40 bg-indigo-600 blur-[80px] opacity-20 group-hover:opacity-40 transition-opacity duration-500"></div>
-                </a>
+                </button>
 
                 <a onclick="goToJobDefense()" class="group md:col-span-7 bg-[#EEF2FF] border border-indigo-100 rounded-[2rem] p-8 relative overflow-hidden card-hover flex flex-col sm:flex-row items-start sm:items-center justify-between cursor-pointer">
                     <div class="relative z-10 max-w-sm">
@@ -218,6 +222,54 @@
             </div>
         </div>
     </div>
+
+    <div id="view-professors" class="page-exit w-full flex-grow flex-col bg-white">
+                <div class="max-w-5xl mx-auto px-6 pt-32 pb-20 w-full">
+                    
+                    <button onclick="goToHome()" class="flex items-center gap-2 text-stone-500 hover:text-indigo-600 mb-8 group transition-colors">
+                        <div class="w-8 h-8 rounded-full bg-stone-100 flex items-center justify-center group-hover:bg-indigo-100 transition-colors">
+                            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                        </div>
+                        <span class="font-medium">메인으로 돌아가기</span>
+                    </button>
+
+                    <div class="flex flex-col md:flex-row gap-6 items-start justify-between mb-10 border-b border-stone-100 pb-8">
+                        <div>
+                            <div class="inline-block px-3 py-1 bg-indigo-50 text-indigo-600 rounded-full text-xs font-bold mb-4">
+                                교수진 소개
+                            </div>
+                            <h1 class="text-4xl md:text-5xl font-black text-stone-900 mb-4">
+                                지능정보양자공학과 교수님들
+                            </h1>
+                            <p class="text-stone-500 text-lg">
+                                전공 수업, 연구실, 진로 상담까지<br>
+                                학과 생활 전반을 함께 하게 될 교수님들을 한눈에 확인해보세요.
+                            </p>
+                        </div>
+
+                        <div class="w-full md:w-72">
+                            <label class="block text-xs font-bold text-stone-400 mb-2 tracking-wider">
+                                이름·연구분야 검색
+                            </label>
+                            <div class="relative">
+                                <input type="text" 
+                                    class="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-3 text-sm placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white"
+                                    placeholder="예: 손승우, AI, 양자, 국방"
+                                    oninput="renderProfessors(this.value)">
+                                <i data-lucide="search" class="w-4 h-4 text-stone-400 absolute right-3 top-1/2 -translate-y-1/2"></i>
+                            </div>
+                            <p class="mt-2 text-[11px] text-stone-400">
+                                GPT추론: 검색은 단순 부분 문자열 매칭으로 구현해서, 이름·키워드 아무거나 쳐도 필터링되도록 했다.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div id="professor-list" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    </div>
+                </div>
+            </div>
+            
+  
 
     <div id="view-detail" class="page-exit w-full flex-grow flex-col bg-white">
         <div class="max-w-5xl mx-auto px-6 pt-32 pb-20 w-full">
@@ -442,11 +494,67 @@
             </div>
         `;
 
+        // --- Professors Data (필요시 자유롭게 추가/수정) ---
+        const professors = [
+            {
+                name: "손승우",
+                title: "학과장 / 교수",
+                office: "제1과학기술관 123호",
+                email: "sonswoo@hanyang.ac.kr",
+                research: "GPT추론: 국방·지능정보 관련 전공으로, 정확한 연구 키워드는 학과 홈페이지 참고 후 수정 권장.",
+                tags: ["학과장", "지능정보양자공학전공", "지도교수"]
+            },
+            {
+                name: "김지원",
+                title: "전공주임 / 교수",
+                office: "제2과학기술관 606호",
+                email: "choijw@hanyang.ac.kr",
+                research: "GPT추론: 학과 운영과 전공 커리큘럼을 총괄하는 교수님. 구체 연구 분야는 나중에 직접 입력.",
+                tags: ["전공주임", "진로상담"]
+            },
+            {
+                name: "권영헌",
+                title: "교수",
+                office: "제1과학기술관 1층 120호",
+                email: "",
+                research: "연구 분야를 여기에 적어 주세요. (예: 양자광학, 레이저, 나노포토닉스 등)",
+                tags: ["제1과학기술관", "연구실", "양자"]
+            },
+            {
+                name: "정영대",
+                title: "교수",
+                office: "제1과학기술관 103호",
+                email: "",
+                research: "연구 분야를 여기에 적어 주세요.",
+                tags: ["제1과학기술관"]
+            },
+            {
+                name: "정희준",
+                title: "교수",
+                office: "제1과학기술관 1층 121호",
+                email: "",
+                research: "연구 분야를 여기에 적어 주세요.",
+                tags: ["제1과학기술관"]
+            },
+            {
+                name: "허지혁",
+                title: "교수",
+                office: "제1과학기술관 (정확한 호수는 교수소개 페이지에서 확인 후 수정)",
+                email: "",
+                research: "연구 분야를 여기에 적어 주세요.",
+                tags: ["제1과학기술관"]
+            },
+            // TODO: 나머지 교수님들도 같은 형식으로 추가
+        ];
+
+
         // --- Navigation Logic ---
         function hideAllViews() {
             document.getElementById('view-home').classList.add('page-exit');
             document.getElementById('view-detail').classList.add('page-exit');
             document.getElementById('view-job-defense').classList.add('page-exit');
+            const profView = document.getElementById('view-professors');
+            if (profView) profView.classList.add('page-exit');
         }
 
         function showView(viewId) {
@@ -506,6 +614,78 @@
             // Re-create lucide icons for the new view
             lucide.createIcons();
         }
+
+        //교수진 목록 이동 버튼
+        function goToProfessors() {
+            hideAllViews();
+            showView('view-professors');
+            renderProfessors("");   // 기본 전체 목록 렌더
+        }
+
+        function renderProfessors(keyword = "") {
+            const container = document.getElementById('professor-list');
+            if (!container) return;
+
+            const q = keyword.trim().toLowerCase();
+
+            const filtered = professors.filter(p => {
+                if (!q) return true;
+                const haystack = [
+                    p.name || "",
+                    p.title || "",
+                    p.office || "",
+                    p.research || "",
+                    (p.tags || []).join(" ")
+                ].join(" ").toLowerCase();
+                return haystack.includes(q);
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-1 md:col-span-2 p-8 bg-stone-50 border border-dashed border-stone-300 rounded-2xl text-center text-sm text-stone-500">
+                        해당 키워드에 해당하는 교수님을 찾을 수 없습니다.<br>
+                        검색어를 줄이거나, 철자를 다시 확인해보세요.
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = filtered.map(p => `
+                <article class="bg-stone-50 border border-stone-200 rounded-2xl p-6 card-hover flex flex-col h-full">
+                    <div class="flex items-start justify-between gap-4 mb-4">
+                        <div>
+                            <h2 class="text-xl font-bold text-stone-900 mb-1">
+                                ${p.name} <span class="text-sm text-stone-500 font-medium">${p.title || ""}</span>
+                            </h2>
+                            <p class="text-xs font-medium text-indigo-600">
+                                ${p.office ? `사무실: ${p.office}` : ""}
+                            </p>
+                            ${p.email ? `
+                                <p class="text-xs text-stone-500 mt-1">이메일: <span class="font-mono">${p.email}</span></p>
+                            ` : ""}
+                        </div>
+                        <div class="w-10 h-10 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center flex-shrink-0">
+                            <i data-lucide="user-round" class="w-5 h-5"></i>
+                        </div>
+                    </div>
+                    <p class="text-sm text-stone-600 flex-1 leading-relaxed">
+                        ${p.research || "연구 분야 설명을 추후 추가할 예정입니다."}
+                    </p>
+                    <div class="mt-4 flex flex-wrap gap-2">
+                        ${(p.tags || []).map(tag => `
+                            <span class="px-2 py-1 rounded-full bg-white border border-stone-200 text-[11px] text-stone-500">
+                                #${tag}
+                            </span>
+                        `).join("")}
+                    </div>
+                </article>
+            `).join("");
+
+            // 새로 삽입된 아이콘 렌더링
+            lucide.createIcons();
+        }
+
+
 
 
         // --- Chat Logic (기존 코드 유지) ---
