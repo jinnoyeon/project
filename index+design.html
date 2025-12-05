@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>지능정보양자공학과 위키</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* [핵심 디자인: Quantum & Intelligence Dark Theme] */
+        
+        /* 1. 기본 배경 및 폰트 설정 (다크 모드 강제 적용) */
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            word-break: keep-all;
+            background-color: #0b1120 !important; /* Deep Navy Background */
+            color: #e2e8f0 !important; /* Light Text */
+            /* 은은한 배경 그라데이션 (Quantum Fields) */
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(34, 211, 238, 0.08), transparent 25%), 
+                radial-gradient(circle at 85% 30%, rgba(129, 140, 248, 0.08), transparent 25%);
+            min-height: 100vh;
+        }
+
+        /* 2. 네비게이션 바: 글래스모피즘 (유리 효과) */
+        nav {
+            background-color: rgba(15, 23, 42, 0.85) !important;
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(56, 189, 248, 0.2) !important;
+        }
+        nav span { color: #f1f5f9 !important; }
+        nav .text-stone-400 { color: #38bdf8 !important; } /* 로고 포인트 컬러 */
+        nav a { color: #94a3b8 !important; }
+        nav a:hover { color: #38bdf8 !important; }
+        nav button { 
+            background-color: #1e293b !important; 
+            border: 1px solid #38bdf8 !important; 
+            color: #38bdf8 !important;
+        }
+
+        /* 3. 텍스트 컬러 오버라이딩 (기존 Tailwind 클래스 덮어쓰기) */
+        .text-stone-900, .text-stone-800, .text-black { 
+            color: #f8fafc !important; 
+            text-shadow: 0 0 10px rgba(255,255,255,0.1); 
+        }
+        .text-stone-500, .text-stone-600, .text-stone-400 { color: #94a3b8 !important; }
+        .text-indigo-600 { color: #22d3ee !important; text-shadow: 0 0 10px rgba(34, 211, 238, 0.6); }
+        .text-blue-600 { color: #60a5fa !important; }
+        .text-green-600 { color: #4ade80 !important; }
+        .text-yellow-600 { color: #facc15 !important; }
+
+        /* 4. 검색창 스타일 */
+        input {
+            background-color: #1e293b !important;
+            border: 1px solid #334155 !important;
+            color: white !important;
+            border-radius: 12px !important;
+        }
+        input::placeholder { color: #64748b !important; }
+        input:focus {
+            border-color: #22d3ee !important;
+            box-shadow: 0 0 15px rgba(34, 211, 238, 0.2) !important;
+            outline: none !important;
+        }
+
+        /* 5. 카드 공통 스타일: 홀로그램 패널 느낌 */
+        .card-hover, .subject-card, 
+        .bg-white, .bg-stone-100, .bg-stone-50, .bg-stone-900, .bg-\[\#EEF2FF\] {
+            background-color: rgba(30, 41, 59, 0.6) !important; /* 반투명 다크 블루 */
+            border: 1px solid rgba(148, 163, 184, 0.1) !important;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+            color: #f8fafc !important;
+            border-radius: 1.5rem !important;
+        }
+
+        /* 카드 호버 효과: 네온 글로우 */
+        .card-hover:hover, .subject-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(34, 211, 238, 0.5) !important; /* Cyan Glow Border */
+            box-shadow: 0 0 25px rgba(34, 211, 238, 0.1) !important;
+        }
+
+        /* [개별 카드 내부 스타일] */
+        
+        /* 리스트 아이템 (건물 목록 등) */
+        button.card-hover, .card-hover button { 
+            background: rgba(15, 23, 42, 0.5) !important;
+            border: 1px solid rgba(255,255,255,0.05) !important;
+        }
+        button.card-hover:hover, .card-hover button:hover {
+            background: rgba(34, 211, 238, 0.1) !important;
+            border-color: #22d3ee !important;
+        }
+        /* 숫자/아이콘 배지 */
+        .bg-indigo-50 { background-color: rgba(34, 211, 238, 0.15) !important; color: #22d3ee !important; }
+        .bg-stone-800 { background-color: #0f172a !important; border: 1px solid #334155; }
+        .bg-indigo-100 { background-color: rgba(99, 102, 241, 0.2) !important; color: #818cf8 !important; }
+        
+        /* 6. 상세 페이지 내부 요소 */
+        /* 팁 박스 & 경고 박스 */
+        .bg-stone-50 { background-color: rgba(34, 211, 238, 0.05) !important; border: 1px solid rgba(34, 211, 238, 0.2) !important; }
+        .bg-yellow-50 { background-color: rgba(234, 179, 8, 0.1) !important; border-color: rgba(234, 179, 8, 0.3) !important; }
+        .text-yellow-500 { color: #facc15 !important; }
+
+        /* 지도 영역 */
+        #view-detail .bg-stone-100 {
+            background-color: #1e293b !important;
+            border: 1px solid #334155 !important;
+        }
+        .bg-stone-200 { background-color: #334155 !important; } /* 지도 도로 */
+        .bg-stone-300 { background-color: #475569 !important; color: #94a3b8 !important; border: 1px solid #64748b; } /* 비활성 건물 */
+        .bg-indigo-600 { background-color: #22d3ee !important; color: #0f172a !important; box-shadow: 0 0 15px #22d3ee !important; } /* 활성 건물 */
+
+        /* 7. 모달창 스타일 */
+        #professor-modal .bg-white {
+            background-color: #1e293b !important;
+            border: 1px solid #38bdf8 !important;
+            color: #f1f5f9 !important;
+        }
+        #professor-modal button.bg-stone-100 {
+            background-color: #0f172a !important;
+            color: white !important;
+            border: 1px solid #334155;
+        }
+        /* 모달 헤더 */
+        #modal-header { background-color: rgba(15, 23, 42, 0.5) !important; border-bottom: 1px solid #334155 !important; }
+
+        /* 8. 채팅창 & 푸터 */
+        footer { background-color: #0b1120 !important; border-top: 1px solid #1e293b !important; }
+        
+        #ai-chat-window {
+            background-color: #1e293b !important;
+            border: 1px solid #38bdf8 !important;
+        }
+        #chat-messages { background-color: #0f172a !important; }
+        #chat-messages .bg-white { 
+            background-color: #1e293b !important; 
+            border-color: #334155 !important;
+            color: #e2e8f0 !important;
+        }
+        /* 보내기 버튼 */
+        #send-btn { background-color: #2563eb !important; }
+
+        /* 9. 애니메이션 및 유틸리티 */
+        .text-balance { text-wrap: balance; }
+        .prose-sm p { margin-bottom: 0.5em; }
+        .prose-sm strong, strong { font-weight: 700; color: #22d3ee !important; } /* 강조 텍스트는 형광 하늘색 */
+
+        /* 페이지 전환 효과 */
+        .page-enter { animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; display: flex; }
+        .page-exit { display: none !important; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 스크롤바 커스텀 */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+    </style>
+</head>
+<body class="bg-noise text-stone-900 antialiased min-h-screen flex flex-col relative">
+
+    <nav class="fixed w-full z-50 px-6 py-5 flex justify-between items-center bg-[#fcfbf9]/80 backdrop-blur-md border-b border-stone-200/50">
+        <div class="flex items-center gap-2 cursor-pointer" onclick="goToHome()">
+            <div class="w-3 h-3 bg-indigo-600 rounded-full shadow-[0_0_10px_#22d3ee]"></div>
+            <span class="text-lg font-bold tracking-tight text-stone-900">IQE <span class="text-stone-400 font-normal">WIKI</span></span>
+        </div>
+        <div class="hidden md:flex items-center gap-8 text-sm font-medium text-stone-500">
+            <a href="#" class="hover:text-indigo-600 transition-colors">새 문서 만들기</a>
+            <a href="#" class="hover:text-indigo-600 transition-colors">로그인</a>
+            <button class="w-8 h-8 flex items-center justify-center rounded-full bg-stone-900 text-white hover:bg-indigo-600 transition-colors">
+                <i data-lucide="user" class="w-4 h-4"></i>
+            </button>
+        </div>
+    </nav>
+
+    <div id="view-home" class="page-enter w-full flex-grow flex-col">
+        <main class="flex-grow pt-32 pb-20 px-6 max-w-7xl mx-auto w-full">
+            
+            <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-10">
+                <div class="max-w-2xl">
+                    <p class="text-indigo-600 font-bold mb-4 tracking-wide text-sm uppercase">Dept. of Intelligence & Quantum Eng.</p>
+                    <h1 class="text-5xl md:text-7xl font-black leading-[1.1] tracking-tighter text-stone-900 mb-6 text-balance">
+                        지능정보양자공학과<br>
+                        지식 아카이브
+                    </h1>
+                    <p class="text-stone-500 text-lg md:text-xl font-medium max-w-lg leading-relaxed">
+                        학생들을 위한 정보 공유 공간.<br>
+                        강의실 정보부터 진로 가이드까지 한눈에 확인하세요.
+                    </p>
+                </div>
+                <div class="w-full md:w-1/3">
+                    <div class="relative group">
+                        <input type="text" class="w-full bg-white border border-stone-200 rounded-none px-6 py-5 text-lg placeholder-stone-400 focus:outline-none focus:border-stone-900 focus:ring-0 transition-all shadow-sm group-hover:shadow-md" placeholder="검색 (예: 양자역학, 제1과학기술관)">
+                        <button class="absolute right-4 top-1/2 -translate-y-1/2 p-2 text-stone-400 hover:text-indigo-600 transition-colors"><i data-lucide="search" class="w-6 h-6"></i></button>
+                    </div>
+                    <div class="mt-3 flex gap-2 text-sm text-stone-500 font-medium">
+                        <span>추천:</span>
+                        <a href="#" class="hover:text-indigo-600 underline decoration-stone-300 underline-offset-4 decoration-1">#졸업요건</a>
+                        <a href="#" class="hover:text-indigo-600 underline decoration-stone-300 underline-offset-4 decoration-1">#Qiskit</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6 min-h-[600px]">
+                
+                <div class="md:col-span-7 bg-stone-100 rounded-[2rem] p-8 relative overflow-hidden card-hover flex flex-col group">
+                    <div class="relative z-10 flex flex-col h-full">
+                        <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center mb-6 shadow-sm text-stone-900">
+                            <i data-lucide="map" class="w-5 h-5"></i>
+                        </div>
+                        <h2 class="text-3xl font-bold mb-2">주요 건물 & 강의실</h2>
+                        <p class="text-stone-500 font-medium mb-8">캠퍼스 내 주요 강의동의 위치와 특징을 확인하세요.</p>
+
+                        <div class="grid gap-3 mt-auto relative z-20">
+                            <button onclick="goToDetail('sci1')" class="flex items-center justify-between w-full p-4 bg-white rounded-xl shadow-sm hover:shadow-md hover:scale-[1.01] transition-all border border-transparent hover:border-indigo-100 group/item cursor-pointer">
+                                <div class="flex items-center gap-4">
+                                    <span class="w-10 h-10 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600 font-bold">1</span>
+                                    <div class="text-left">
+                                        <h3 class="font-bold text-stone-900 group-hover/item:text-indigo-600 transition-colors">제1과학기술관</h3>
+                                        <p class="text-xs text-stone-500">기초 과학 수업, 라운지</p>
+                                    </div>
+                                </div>
+                                <i data-lucide="chevron-right" class="text-stone-300 group-hover/item:text-indigo-500"></i>
+                            </button>
+                            <button onclick="goToDetail('sci2')" class="flex items-center justify-between w-full p-4 bg-white rounded-xl shadow-sm hover:shadow-md hover:scale-[1.01] transition-all border border-transparent hover:border-indigo-100 group/item cursor-pointer">
+                                <div class="flex items-center gap-4">
+                                    <span class="w-10 h-10 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600 font-bold">2</span>
+                                    <div class="text-left">
+                                        <h3 class="font-bold text-stone-900 group-hover/item:text-indigo-600 transition-colors">제2과학기술관</h3>
+                                        <p class="text-xs text-stone-500">실험/실습 과목</p>
+                                    </div>
+                                </div>
+                                <i data-lucide="chevron-right" class="text-stone-300 group-hover/item:text-indigo-500"></i>
+                            </button>
+                            <button onclick="goToDetail('conf')" class="flex items-center justify-between w-full p-4 bg-white rounded-xl shadow-sm hover:shadow-md hover:scale-[1.01] transition-all border border-transparent hover:border-indigo-100 group/item cursor-pointer">
+                                <div class="flex items-center gap-4">
+                                    <span class="w-10 h-10 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600 font-bold">C</span>
+                                    <div class="text-left">
+                                        <h3 class="font-bold text-stone-900 group-hover/item:text-indigo-600 transition-colors">컨퍼런스홀</h3>
+                                        <p class="text-xs text-stone-500">대형 교양 강의</p>
+                                    </div>
+                                </div>
+                                <i data-lucide="chevron-right" class="text-stone-300 group-hover/item:text-indigo-500"></i>
+                            </button>
+                        </div>
+                    </div>
+                     <div class="absolute right-0 top-0 w-64 h-64 bg-stone-200/40 rounded-full translate-x-20 -translate-y-20 z-0"></div>
+                </div>
+
+                <a onclick="goToCurriculum()" class="group md:col-span-5 bg-white border border-stone-100 shadow-sm rounded-[2rem] p-8 relative overflow-hidden card-hover flex flex-col justify-between cursor-pointer">
+                    <div>
+                        <div class="flex justify-between items-start mb-6">
+                            <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-full flex items-center justify-center">
+                                <i data-lucide="book-open" class="w-5 h-5"></i>
+                            </div>
+                            <span class="px-3 py-1 bg-stone-100 rounded-full text-xs font-bold text-stone-600">Curriculum</span>
+                        </div>
+                        <h2 class="text-2xl font-bold mb-2">이수 과목</h2>
+                        <p class="text-stone-500 text-sm">양자역학, 머신러닝, 선형대수.<br>학년별 필수 이수 체계도와 수강 꿀팁.</p>
+                    </div>
+                    <div class="mt-8 flex gap-2 overflow-hidden opacity-50 group-hover:opacity-100 transition-opacity">
+                        <span class="px-2 py-1 border border-stone-200 rounded text-xs text-stone-500">#양자정보</span>
+                        <span class="px-2 py-1 border border-stone-200 rounded text-xs text-stone-500">#AI프로젝트</span>
+                    </div>
+                </a>
+
+                <button onclick="goToProfessors()" class="group md:col-span-5 bg-stone-900 text-white rounded-[2rem] p-8 relative overflow-hidden card-hover flex flex-col text-left w-full">
+                    <div class="relative z-10 h-full flex flex-col justify-between">
+                        <div class="w-12 h-12 bg-stone-800 rounded-full flex items-center justify-center mb-6">
+                            <i data-lucide="graduation-cap" class="w-5 h-5 text-stone-300"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-2xl font-bold mb-2">교수진 & 연구실</h2>
+                            <p class="text-stone-400 text-sm">AI, 양자컴퓨팅, 나노물리 등<br>분야별 교수님 연구 실적 및 랩실 소개.</p>
+                        </div>
+                        <div class="mt-6 flex items-center gap-2 text-stone-500 text-sm group-hover:text-white transition-colors">
+                            <span>Lab Contact</span>
+                            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                        </div>
+                    </div>
+                    <div class="absolute top-0 right-0 w-40 h-40 bg-indigo-600 blur-[80px] opacity-20 group-hover:opacity-40 transition-opacity duration-500"></div>
+                </button>
+
+                <a onclick="goToJobDefense()" class="group md:col-span-7 bg-[#EEF2FF] border border-indigo-100 rounded-[2rem] p-8 relative overflow-hidden card-hover flex flex-col sm:flex-row items-start sm:items-center justify-between cursor-pointer">
+                    <div class="relative z-10 max-w-sm">
+                        <div class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center mb-6">
+                            <i data-lucide="briefcase" class="w-5 h-5"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold mb-2 text-stone-900">주요 취업처</h2>
+                        <p class="text-stone-600 font-medium text-sm leading-relaxed">
+                            삼성전자, SK하이닉스, 양자연구소, AI 스타트업.<br>
+                            졸업생들이 진출한 기업과 직무 가이드.
+                        </p>
+                    </div>
+                    <div class="mt-6 sm:mt-0 relative">
+                        <div class="w-16 h-16 rounded-full border-2 border-indigo-200 flex items-center justify-center group-hover:bg-indigo-600 group-hover:border-indigo-600 group-hover:text-white transition-all duration-300">
+                            <i data-lucide="arrow-right" class="w-6 h-6"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </main>
+        
+        <div class="border-t border-stone-200 bg-white">
+            <div class="max-w-7xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div>
+                    <h3 class="text-sm font-bold text-stone-400 mb-6 uppercase tracking-wider">실시간 인기 문서</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-center justify-between group cursor-pointer">
+                            <span class="text-lg font-medium text-stone-800 group-hover:underline decoration-1 underline-offset-4">1. 2학년 2학기 전공 시간표 추천</span>
+                            <span class="text-xs text-indigo-600 font-bold bg-indigo-50 px-2 py-1 rounded">HOT</span>
+                        </li>
+                        <li class="flex items-center justify-between group cursor-pointer">
+                            <span class="text-lg font-medium text-stone-800 group-hover:underline decoration-1 underline-offset-4">2. 양자역학1 족보 (중간고사)</span>
+                            <span class="text-xs text-stone-400">▲ 5</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="view-detail" class="page-exit w-full flex-grow flex-col bg-white">
+        <div class="max-w-5xl mx-auto px-6 pt-32 pb-20 w-full">
+            <button onclick="goToHome()" class="flex items-center gap-2 text-stone-500 hover:text-indigo-600 mb-8 group transition-colors">
+                <div class="w-8 h-8 rounded-full bg-stone-100 flex items-center justify-center group-hover:bg-indigo-100 transition-colors">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                </div>
+                <span class="font-medium">메인으로 돌아가기</span>
+            </button>
+
+            <div class="flex flex-col md:flex-row gap-6 items-start justify-between mb-12 border-b border-stone-100 pb-8">
+                <div>
+                    <div class="inline-block px-3 py-1 bg-indigo-50 text-indigo-600 rounded-full text-xs font-bold mb-4">건물 정보</div>
+                    <h1 id="detail-title" class="text-4xl md:text-5xl font-black text-stone-900 mb-4">건물명</h1>
+                    <p class="text-stone-500 text-lg">지능정보양자공학과 주요 강의동</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div>
+                    <h3 class="text-xl font-bold text-stone-800 mb-6 flex items-center gap-2">
+                        <i data-lucide="info" class="w-5 h-5 text-indigo-500"></i> 상세 정보
+                    </h3>
+                    <div id="detail-desc" class="prose prose-lg text-stone-600 leading-relaxed"></div>
+                    <div class="mt-8 p-6 bg-stone-50 rounded-2xl border border-stone-100">
+                        <h4 class="font-bold text-stone-800 mb-2">💡 Tip</h4>
+                        <p class="text-sm text-stone-500">해당 건물의 강의실 배정은 매 학기 변경될 수 있으니, 수강신청 전 포털에서 강의실 호수를 반드시 확인하세요.</p>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-stone-800 mb-6 flex items-center gap-2">
+                        <i data-lucide="map-pin" class="w-5 h-5 text-indigo-500"></i> 위치 안내
+                    </h3>
+                    <div class="bg-stone-100 rounded-2xl p-6 h-[400px] relative overflow-hidden border border-stone-200 shadow-inner flex items-center justify-center">
+                        <div class="relative w-[300px] h-[300px]">
+                            <div class="absolute top-[100px] left-0 w-full h-8 bg-stone-200 rotate-12"></div>
+                            <div class="absolute top-0 right-[100px] w-8 h-full bg-stone-200 rotate-12"></div>
+                            <div id="map-pin-sci1" class="absolute top-[50px] left-[50px] w-24 h-20 bg-stone-300 rounded-xl flex items-center justify-center text-stone-500 font-bold text-xs transition-all duration-500">제1과기</div>
+                            <div id="map-pin-sci2" class="absolute top-[80px] right-[40px] w-20 h-24 bg-stone-300 rounded-xl flex items-center justify-center text-stone-500 font-bold text-xs transition-all duration-500">제2과기</div>
+                            <div id="map-pin-conf" class="absolute bottom-[60px] left-[80px] w-32 h-16 bg-stone-300 rounded-xl flex items-center justify-center text-stone-500 font-bold text-xs transition-all duration-500">컨퍼런스홀</div>
+                        </div>
+                        <div class="absolute bottom-4 right-4 flex flex-col gap-2">
+                            <button class="w-8 h-8 bg-white rounded shadow text-stone-500 flex items-center justify-center hover:text-indigo-600"><i data-lucide="plus" class="w-4 h-4"></i></button>
+                            <button class="w-8 h-8 bg-white rounded shadow text-stone-500 flex items-center justify-center hover:text-indigo-600"><i data-lucide="minus" class="w-4 h-4"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="view-job-defense" class="page-exit w-full flex-grow flex-col bg-white">
+        <div class="max-w-5xl mx-auto px-6 pt-32 pb-20 w-full">
+            <button onclick="goToHome()" class="flex items-center gap-2 text-stone-500 hover:text-indigo-600 mb-8 group transition-colors">
+                <div class="w-8 h-8 rounded-full bg-stone-100 flex items-center justify-center group-hover:bg-indigo-100 transition-colors">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                </div>
+                <span class="font-medium">메인으로 돌아가기</span>
+            </button>
+            <div class="flex flex-col md:flex-row gap-6 items-start justify-between mb-12 border-b border-stone-100 pb-8">
+                <div>
+                    <div class="inline-block px-3 py-1 bg-indigo-50 text-indigo-600 rounded-full text-xs font-bold mb-4">진로 정보</div>
+                    <h1 class="text-4xl md:text-5xl font-black text-stone-900 mb-4">주요 취업처: 국방 산업</h1>
+                    <p class="text-stone-500 text-lg">양자/AI 기술을 활용하는 방위 산업체 및 연구 기관</p>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 gap-12">
+                <div id="job-defense-content" class="prose prose-lg text-stone-600 leading-relaxed"></div>
+                <div class="p-6 bg-yellow-50 rounded-2xl border border-yellow-200">
+                    <h4 class="font-bold text-stone-800 mb-2 flex items-center gap-2">
+                        <i data-lucide="alert-triangle" class="w-5 h-5 text-yellow-500"></i> 중요 안내
+                    </h4>
+                    <p class="text-sm text-stone-600">국방 관련 산업체는 특성상 보안 문제가 중요하며, 채용 시 관련 자격 요건(예: 신원 조회)이 까다로울 수 있습니다.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="view-curriculum" class="page-exit w-full flex-grow flex-col bg-white">
+        <div class="max-w-5xl mx-auto px-6 pt-32 pb-20 w-full">
+            <button onclick="goToHome()" class="flex items-center gap-2 text-stone-500 hover:text-indigo-600 mb-8 group transition-colors">
+                <div class="w-8 h-8 rounded-full bg-stone-100 flex items-center justify-center group-hover:bg-indigo-100 transition-colors">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                </div>
+                <span class="font-medium">메인으로 돌아가기</span>
+            </button>
+            <div class="flex flex-col md:flex-row gap-6 items-start justify-between mb-12 border-b border-stone-100 pb-8">
+                <div>
+                    <div class="inline-block px-3 py-1 bg-indigo-50 text-indigo-600 rounded-full text-xs font-bold mb-4">학사 정보</div>
+                    <h1 class="text-4xl md:text-5xl font-black text-stone-900 mb-4">1학년 1학기 커리큘럼</h1>
+                    <p class="text-stone-500 text-lg">신입생 필수 이수 과목 및 기초 과정 안내</p>
+                </div>
+            </div>
+            <div id="curriculum-content"></div>
+        </div>
+    </div>
+
+    <div id="view-professors" class="page-exit w-full flex-grow flex-col bg-white">
+        <div class="max-w-5xl mx-auto px-6 pt-32 pb-20 w-full">
+            <button onclick="goToHome()" class="flex items-center gap-2 text-stone-500 hover:text-indigo-600 mb-8 group transition-colors">
+                <div class="w-8 h-8 rounded-full bg-stone-100 flex items-center justify-center group-hover:bg-indigo-100 transition-colors">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                </div>
+                <span class="font-medium">메인으로 돌아가기</span>
+            </button>
+            <div class="flex flex-col md:flex-row gap-6 items-start justify-between mb-10 border-b border-stone-100 pb-8">
+                <div>
+                    <div class="inline-block px-3 py-1 bg-indigo-50 text-indigo-600 rounded-full text-xs font-bold mb-4">
+                        교수진 소개
+                    </div>
+                    <h1 class="text-4xl md:text-5xl font-black text-stone-900 mb-4">
+                        지능정보양자공학과 교수님들
+                    </h1>
+                    <p class="text-stone-500 text-lg">
+                        미래 기술을 선도하는 최고의 연구진을 소개합니다.
+                    </p>
+                </div>
+            </div>
+            <div id="professor-list" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                </div>
+        </div>
+    </div>
+
+    <div id="professor-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/40 p-4">
+        <div class="bg-white rounded-2xl max-w-2xl w-full shadow-2xl relative flex flex-col max-h-[90vh]">
+            <button onclick="closeProfessorModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-stone-100 flex items-center justify-center hover:bg-stone-200 z-10">
+                <i data-lucide="x" class="w-4 h-4 text-stone-500"></i>
+            </button>
+            <div id="modal-header" class="p-8 border-b border-stone-100 bg-stone-50 rounded-t-2xl">
+                </div>
+            <div class="p-8 overflow-y-auto">
+                <div id="modal-body" class="prose prose-stone">
+                    </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer class="py-10 border-t border-stone-200 mt-auto bg-white">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center text-xs text-stone-400">
+            <p>&copy; 2024 IQE Wiki Project. Students for Students.</p>
+            <div class="flex gap-6 mt-4 md:mt-0">
+                <a href="#" class="hover:text-stone-900">이용약관</a>
+                <a href="#" class="hover:text-stone-900">문의하기</a>
+            </div>
+        </div>
+    </footer>
+
+    <div class="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-4">
+        <div id="ai-chat-window" class="hidden w-[360px] h-[500px] bg-white rounded-2xl shadow-2xl border border-stone-200 flex flex-col overflow-hidden transition-all transform origin-bottom-right">
+            <div class="bg-indigo-600 p-4 flex justify-between items-center text-white">
+                <div class="flex items-center gap-2">
+                    <div class="bg-white/20 p-1.5 rounded-lg"><i data-lucide="sparkles" class="w-4 h-4"></i></div>
+                    <div><h3 class="font-bold text-sm">IQE AI 튜터</h3><p class="text-[10px] text-indigo-100 opacity-80">Powered by Gemini</p></div>
+                </div>
+                <button onclick="toggleChat()" class="text-white/80 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            <div id="chat-messages" class="flex-1 overflow-y-auto p-4 space-y-4 bg-stone-50 scroll-smooth">
+                <div class="flex gap-3">
+                    <div class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 flex-shrink-0"><i data-lucide="bot" class="w-5 h-5"></i></div>
+                    <div class="bg-white p-3 rounded-2xl rounded-tl-none border border-stone-100 shadow-sm text-sm text-stone-700">
+                        안녕하세요! 지능정보양자공학과 AI 튜터입니다. 👋<br>궁금한 점을 물어보세요!
+                    </div>
+                </div>
+            </div>
+            <div class="p-3 bg-white border-t border-stone-100">
+                <div class="flex gap-2 relative">
+                    <input type="text" id="user-input" class="flex-1 bg-stone-100 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all placeholder-stone-400" placeholder="질문을 입력하세요..." onkeypress="handleKeyPress(event)">
+                    <button onclick="sendMessage()" id="send-btn" class="bg-indigo-600 text-white p-3 rounded-xl hover:bg-indigo-700 transition-colors"><i data-lucide="send" class="w-4 h-4"></i></button>
+                </div>
+            </div>
+        </div>
+        <button onclick="toggleChat()" class="group relative flex items-center justify-center w-14 h-14 bg-indigo-600 text-white rounded-full shadow-xl hover:scale-110 transition-all hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-300">
+            <i data-lucide="sparkles" class="w-6 h-6"></i>
+        </button>
+    </div>
+
+    <script>
+        lucide.createIcons();
+        const apiKey = ""; 
+
+        // --- Data ---
+        const detailData = {
+            'sci1': {
+                title: "제1과학기술관",
+                desc: `
+                    <p class="text-lg font-bold mb-4">"공대생의 시작과 끝"</p>
+                    <p class="mb-4"><strong>일반 물리학, 미적분학</strong> 등 1학년 기초 필수 과목을 수강할 때 가장 많이 이용하는 건물입니다. 신입생이라면 학교 생활의 절반을 이곳에서 보내게 됩니다.</p>
+                    <ul class="list-disc pl-5 space-y-2 mb-4">
+                        <li>1층: 오픈 라운지</li>
+                        <li>2-4층: 대형 강의실 및 교수 연구실</li>
+                        <li>5층: 학과 세미나실</li>
+                    </ul>
+                    <p>건물 앞 벤치는 봄철 벚꽃 명소로도 유명하여 공강 시간에 휴식하기 좋습니다.</p>
+                `,
+                mapId: "map-pin-sci1"
+            },
+            'sci2': {
+                title: "제2과학기술관",
+                desc: `
+                    <p class="text-lg font-bold mb-4">"이론을 현실로"</p>
+                    <p class="mb-4"><strong>실험 및 실습 과목</strong>을 수강할 때 주로 사용되는 건물입니다. 물리 실험, 화학 실험 뿐만 아니라 양자 공학 관련 기초 실험도 이곳에서 진행됩니다.</p>
+                    <ul class="list-disc pl-5 space-y-2 mb-4">
+                        <li>1층: 행정팀 (학사 관련 문의)</li>
+                        <li>2층~: 학부생 실험실 및 실습실</li>
+                    </ul>
+                    <p>안전을 위해 실험 가운 착용이 필수인 구역이 많으니 주의하세요.</p>
+                `,
+                mapId: "map-pin-sci2"
+            },
+            'conf': {
+                title: "컨퍼런스홀",
+                desc: `
+                    <p class="text-lg font-bold mb-4">"지식의 광장"</p>
+                    <p class="mb-4"><strong>선택교양</strong>과 같이 학과 구분 없이 불특정 다수의 인원이 듣는 대규모 수업이 진행됩니다. 외부 초청 강연이나 학술제도 주로 이곳에서 열립니다.</p>
+                    <ul class="list-disc pl-5 space-y-2 mb-4">
+                        <li>대강당: 300석 규모의 계단식 강의실</li>
+                        <li>로비: 포스터 발표 및 전시 공간</li>
+                    </ul>
+                    <p>시험 기간에는 로비의 테이블이 개방되어 스터디 공간으로 활용됩니다.</p>
+                `,
+                mapId: "map-pin-conf"
+            }
+        };
+
+        const jobDefenseData = `
+            <h2 class="text-3xl font-extrabold mb-8 text-white">AI & 양자 기술 기반 국방/방위 산업 진로</h2>
+            <div class="space-y-12">
+                <div class="border-l-4 border-indigo-500 pl-4">
+                    <h3 class="text-2xl font-bold mb-3 flex items-center gap-2 text-white">
+                        <i data-lucide="circle" class="w-3 h-3 fill-indigo-500 text-indigo-500"></i> 삼성전자 (방산 분야 협력)
+                    </h3>
+                    <p class="text-stone-700 mb-4">
+                        삼성전자는 직접적인 방산업체는 아니지만, 첨단 반도체 및 **AI 기반 센서** 기술을 국방 분야에 응용하는 연구 개발에 참여하고 있습니다. 
+                        특히, **양자 암호 통신** 기술은 차세대 보안 시스템 구축의 핵심 분야로, 지능정보양자공학과 졸업생들이 기여할 수 있는 주요 영역입니다.
+                    </p>
+                    <p class="text-sm font-medium text-stone-500">주요 직무: 시스템 엔지니어, 양자/AI 보안 R&D, 임베디드 소프트웨어 개발</p>
+                </div>
+                <div class="border-l-4 border-indigo-500 pl-4">
+                    <h3 class="text-2xl font-bold mb-3 flex items-center gap-2 text-white">
+                        <i data-lucide="circle" class="w-3 h-3 fill-indigo-500 text-indigo-500"></i> 국방과학연구소 (ADD)
+                    </h3>
+                    <p class="text-stone-700 mb-4">
+                        국방 분야의 첨단 기술을 연구하고 개발하는 **국책 연구기관**입니다. 
+                        최근 ADD는 **양자 레이더, 양자 컴퓨터 기반 시뮬레이션** 등 차세대 국방 기술 확보에 주력하고 있어, 양자 물리 및 AI 분석 능력을 갖춘 인재를 적극적으로 채용합니다.
+                    </p>
+                    <p class="text-sm font-medium text-stone-500">주요 직무: 양자 센서 연구원, 국방 AI 개발 연구원, 무기 체계 시뮬레이션 전문가</p>
+                </div>
+                <div class="border-l-4 border-indigo-500 pl-4">
+                    <h3 class="text-2xl font-bold mb-3 flex items-center gap-2 text-white">
+                        <i data-lucide="circle" class="w-3 h-3 fill-indigo-500 text-indigo-500"></i> 한화에어로스페이스
+                    </h3>
+                    <p class="text-stone-700 mb-4">
+                        한국의 대표적인 방산업체 중 하나로, 항공우주 및 지상 방위 시스템을 개발합니다. 
+                        최근 **AI 기반 무인화 체계**와 **양자 통신/암호 기술**을 접목한 차세대 유무인 복합 체계 개발에 투자하고 있으며, 이 분야의 전문 인력이 필수적입니다.
+                    </p>
+                    <p class="text-sm font-medium text-stone-500">주요 직무: AI 기반 드론/무인 체계 개발, 위성 통신 엔지니어, 방산 소프트웨어 개발</p>
+                </div>
+            </div>
+        `;
+
+        // 이수 과목 데이터 (7개 과목 전체)
+        const curriculumData = `
+            <p class="text-stone-600 mb-6">과목 카드에 마우스를 올리거나 클릭하면 상세 설명이 나타납니다.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="subject-card border border-stone-200 rounded-xl p-5 bg-white cursor-pointer group hover:border-indigo-300">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="bg-stone-100 text-stone-800 px-2 py-0.5 rounded text-xs font-bold">기초필수</span>
+                        <h3 class="!my-0 text-lg font-bold text-stone-900">미분적분학1</h3>
+                    </div>
+                    <div class="description bg-stone-50 p-3 rounded-lg text-sm text-stone-600 border-l-4 border-indigo-400">
+                        이공계열 전공의 필수 기초 과목으로, 일변수 함수의 극한, 연속, 미분, 적분의 개념을 체계적으로 학습합니다.
+                    </div>
+                </div>
+                <div class="subject-card border border-stone-200 rounded-xl p-5 bg-white cursor-pointer group hover:border-indigo-300">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="bg-stone-100 text-stone-800 px-2 py-0.5 rounded text-xs font-bold">기초필수</span>
+                        <h3 class="!my-0 text-lg font-bold text-stone-900">일반물리학1</h3>
+                    </div>
+                    <div class="description bg-stone-50 p-3 rounded-lg text-sm text-stone-600 border-l-4 border-indigo-400">
+                        힘, 에너지, 운동량 등 뉴턴 역학의 기본 원리와 열역학 법칙을 다루며 공학적 분석 능력을 기릅니다.
+                    </div>
+                </div>
+                <div class="subject-card border border-stone-200 rounded-xl p-5 bg-white cursor-pointer group hover:border-indigo-300">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="bg-stone-100 text-stone-800 px-2 py-0.5 rounded text-xs font-bold">기초필수</span>
+                        <h3 class="!my-0 text-lg font-bold text-stone-900">일반물리학실험1</h3>
+                    </div>
+                    <div class="description bg-stone-50 p-3 rounded-lg text-sm text-stone-600 border-l-4 border-indigo-400">
+                        이론을 바탕으로 실제 실험 데이터를 수집하고 분석하며 물리적 현상을 검증하는 능력을 배양합니다.
+                    </div>
+                </div>
+                <div class="subject-card border border-stone-200 rounded-xl p-5 bg-white cursor-pointer group hover:border-green-300">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="bg-green-100 text-green-800 px-2 py-0.5 rounded text-xs font-bold">교양</span>
+                        <h3 class="!my-0 text-lg font-bold text-stone-900">ESG와 SDGs의 이해</h3>
+                    </div>
+                    <div class="description bg-stone-50 p-3 rounded-lg text-sm text-stone-600 border-l-4 border-green-400">
+                        지속가능한 발전 목표(SDGs)와 ESG 경영에 대한 이해를 넓히고, 미래 사회의 윤리적 리더십을 함양합니다.
+                    </div>
+                </div>
+                <div class="subject-card border border-stone-200 rounded-xl p-5 bg-white cursor-pointer group hover:border-indigo-300">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="bg-indigo-100 text-indigo-800 px-2 py-0.5 rounded text-xs font-bold">전공기초</span>
+                        <h3 class="!my-0 text-lg font-bold text-stone-900">창의적프로그래밍 기초와 실습</h3>
+                    </div>
+                    <div class="description bg-stone-50 p-3 rounded-lg text-sm text-stone-600 border-l-4 border-indigo-400">
+                        Python 등을 활용하여 알고리즘 기초를 익히고, 컴퓨팅 사고력을 기르는 실습 과정입니다.
+                    </div>
+                </div>
+                <div class="subject-card border border-stone-200 rounded-xl p-5 bg-white cursor-pointer group hover:border-blue-300">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded text-xs font-bold">전공선택</span>
+                        <h3 class="!my-0 text-lg font-bold text-stone-900">물리해양학</h3>
+                    </div>
+                    <div class="description bg-stone-50 p-3 rounded-lg text-sm text-stone-600 border-l-4 border-blue-400">
+                        해양의 물리적 특성, 해류, 파랑, 조석 등의 원리를 유체 역학적 관점에서 이해합니다.
+                    </div>
+                </div>
+                <div class="subject-card border border-stone-200 rounded-xl p-5 bg-white cursor-pointer group hover:border-yellow-300">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded text-xs font-bold">IC-PBL</span>
+                        <h3 class="!my-0 text-lg font-bold text-stone-900">IC-PBL 비전설계</h3>
+                    </div>
+                    <div class="description bg-stone-50 p-3 rounded-lg text-sm text-stone-600 border-l-4 border-yellow-400">
+                        대학 생활의 목표를 설정하고 구체적인 진로 로드맵을 설계하는 자기주도적 학습 과목입니다.
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        // 교수진 데이터 (9명 전원 포함)
+        const professors = [
+            {
+                id: "sonswoo",
+                name: "손승우",
+                title: "학과장 / 교수",
+                office: "제1과학기술관 123호",
+                phone: "031-400-5473",
+                email: "sonswoo@hanyang.ac.kr",
+                researchSummary: "통계물리학, 복잡계 과학, 인공신경망 활용",
+                detailHtml: `
+                    <p class="mb-3"><strong>연구 분야</strong><br> - 통계물리학, 복잡계 과학, 인공신경망 활용</p>
+                    <p class="mb-3"><strong>학력</strong><br> - POSTECH, 이학사/2001<br> - KAIST, 이학석사/2004<br> - KAIST, 이학박사/2009</p>
+                    <p class="mb-3"><strong>주요 경력</strong><br> - 전임교수/한양대학교 ERICA/2012-현재<br> - APCTP 과학문화위원 2014-현재<br> - (현) 한국복잡계학회, 한국데이터사이언스학회 운영이사</p>
+                    <p class="mb-3"><strong>연구실 소개</strong><br> - 복잡계 연구실</p>
+                `
+            },
+            {
+                id: "kimjw",
+                name: "김지원",
+                title: "전공주임 / 교수",
+                office: "제2과학기술관 606호",
+                phone: "031-400-5482",
+                email: "kimjw@hanyang.ac.kr",
+                researchSummary: "고출력 고체 레이저, 광섬유 레이저, 하이브리드 레이저 시스템",
+                detailHtml: `
+                    <p class="mb-3"><strong>연구 분야</strong><br> - 고출력 고체 레이저, 광섬유 레이저, 하이브리드 레이저 시스템 연구 및 개발</p>
+                    <p class="mb-3"><strong>학력</strong><br> - KAIST 물리학 이학사/1994<br> - KAIST 물리학 이학석사/1996<br> - KAIST 물리학 이학박사/2000</p>
+                    <p class="mb-3"><strong>주요 경력</strong><br> - 박사후 연구원, KAIST 자연과학연구소<br> - Research fellow, Univ. of Southampton</p>
+                `
+            },
+            {
+                id: "kwonyh",
+                name: "권영헌",
+                title: "교수",
+                office: "제1과학기술관 120호",
+                phone: "031-400-5487",
+                email: "yyhkwon@hanyang.ac.kr",
+                researchSummary: "양자 정보, 양자 컴퓨터, 인공지능",
+                detailHtml: `
+                    <p class="mb-3"><strong>연구 분야</strong><br> - 양자정보, 양자컴퓨터, 인공지능</p>
+                    <p class="mb-3"><strong>학력</strong><br> - 한양대 이학사/1984<br> - Univ. of Rochester 이학석사/1986<br> - Univ. of Rochester 이학박사/1987</p>
+                    <p class="mb-3"><strong>주요 경력</strong><br> - 미국 Univ. of Minnesota 연구원</p>
+                `
+            },
+            {
+                id: "kangbs",
+                name: "강보수",
+                title: "교수",
+                office: "제1과학기술관 119호",
+                phone: "031-400-5483",
+                email: "bosookang@hanyang.ac.kr",
+                researchSummary: "산화물 박막, 차세대메모리 소자",
+                detailHtml: `
+                    <p class="mb-3"><strong>연구 분야</strong><br> - 산화물 박막, 차세대 메모리 소자 연구</p>
+                    <p class="mb-3"><strong>학력</strong><br> - 서울대 물리학과 이학사/1996<br> - 서울대 물리학과 석사/1998<br> - 서울대 물리학과 박사/2003</p>
+                    <p class="mb-3"><strong>주요 경력</strong><br> - 연구원 / Los Alamos National Lab.<br> - 연구원 / 삼성종합기술원</p>
+                    <p class="mb-3"><strong>연구실 소개</strong><br> - Material & Device Physics Laboratory</p>
+                `
+            },
+            {
+                id: "jungyd",
+                name: "정영대",
+                title: "교수",
+                office: "제1과학기술관 103호",
+                phone: "031-400-5477",
+                email: "ydjung@hanyang.ac.kr",
+                researchSummary: "이론 원자물리, 플라즈마 물리",
+                detailHtml: `
+                    <p class="mb-3"><strong>연구 분야</strong><br> - 이론 원자물리, 플라즈마 물리</p>
+                    <p class="mb-3"><strong>학력</strong><br> - 한양대학교 이학사/1984<br> - 한양대학교 이학석사/1986<br> - Univ. of California, San Diego 이학박사/1990</p>
+                    <p class="mb-3"><strong>주요 경력</strong><br> - 박사후연구원/NASA Marshall Space Flight Center<br> - 방문교수/일본 국가핵융합과학연구소(NIFS)</p>
+                `
+            },
+            {
+                id: "junghj",
+                name: "정희준",
+                title: "교수",
+                office: "제1과학기술관 121호",
+                phone: "031-400-5479",
+                email: "hjeong@hanyang.ac.kr",
+                researchSummary: "저차원 반도체 물리, 양자 컴퓨팅 소자",
+                detailHtml: `
+                    <p class="mb-3"><strong>연구 분야</strong><br> - 저차원반도체 계에서의 전기전도현상, 전자빔나노패터닝</p>
+                    <p class="mb-3"><strong>학력</strong><br> - 연세대 이학사/1995<br> - 미국 Purdue 대학교 이학박사</p>
+                    <p class="mb-3"><strong>주요 경력</strong><br> - 미국 Princeton 대학교 박사후 연구원</p>
+                `
+            },
+            {
+                id: "choijw",
+                name: "최지웅",
+                title: "교수",
+                office: "제1과학기술관 237호",
+                phone: "031-400-5531",
+                email: "choijw@hanyang.ac.kr",
+                researchSummary: "수중음향, 해양 음파전달",
+                detailHtml: `
+                    <p class="mb-3"><strong>연구 분야</strong><br> - 해양 음파전달 특성 연구, 수중 무선 통신, 수중소음 관측</p>
+                    <p class="mb-3"><strong>학력</strong><br> - 한양대학교 이학사/1996<br> - 한양대학교 수중음향학 석사/1998<br> - 한양대학교 수중음향학 박사/2002</p>
+                    <p class="mb-3"><strong>주요 경력</strong><br> - 한양대학교 ERICA 교육혁신처장<br> - 한양대학교 미래해양연구센터 센터장</p>
+                    <p class="mb-3"><strong>연구실 소개</strong><br> - 해양항공정보융합연구실</p>
+                `
+            },
+            {
+                id: "hujh",
+                name: "허지혁",
+                title: "교수",
+                office: "제1과학기술관 126호",
+                phone: "031-400-5478",
+                email: "huh0921@hanyang.ac.kr",
+                researchSummary: "나노입자 광학 재료, 메타물질",
+                detailHtml: `
+                    <p class="mb-3"><strong>연구 분야</strong><br> - 나노입자를 활용한 광학 재료 해석 및 메타물질 구현</p>
+                    <p class="mb-3"><strong>학력</strong><br> - 한양대학교 ERICA 이학사/2013<br> - 고려대학교 융합대학원 이학박사/2021</p>
+                    <p class="mb-3"><strong>주요 경력</strong><br> - 연구원 LUXPERT<br> - 박사후연구원 고려대학교 KU-KIST 융합교육연구단</p>
+                `
+            },
+            {
+                id: "hongjy",
+                name: "홍주유",
+                title: "교수",
+                office: "제1과학기술관 223호",
+                phone: "031-400-5476",
+                email: "jhong@hanyang.ac.kr",
+                researchSummary: "Dark energy, Alternative gravity theories",
+                detailHtml: `
+                    <p class="mb-3"><strong>연구 분야</strong><br> - Dark energy and alternative gravity theories<br> - Pseudoscalar particle detection</p>
+                    <p class="mb-3"><strong>학력</strong><br> - 서울대학교 이학사/1984<br> - 서울대학교 이학석사/1986<br> - 서울대학교 이학박사/1990</p>
+                    <p class="mb-3"><strong>주요 경력</strong><br> - Univ. of Florida & Tufts Univ. 연구원</p>
+                `
+            },
+            {
+                id: "handg",
+                name: "한동근",
+                title: "교수 (J.A)",
+                office: "제1과학기술관 227호",
+                phone: "031-400-5530",
+                email: "dghandg@hanyang.ac.kr",
+                researchSummary: "수중 음향 분야, 센서 네트워크",
+                detailHtml: `
+                    <p class="mb-3"><strong>연구 분야</strong><br> - 수중음향 기초 및 응용 연구, 모델링 & 시뮬레이션</p>
+                    <p class="mb-3"><strong>학력</strong><br> - 한양대학교 해양융합과학과 이학박사/2020</p>
+                    <p class="mb-3"><strong>주요 경력</strong><br> - 연구조교수 / 한양대학교 ERICA 미래해양연구센터<br> - 연수연구원 / 극지연구소 해양연구본부</p>
+                `
+            }
+        ];
+
+        // --- Navigation Logic ---
+        function hideAllViews() {
+            const views = ['view-home', 'view-detail', 'view-job-defense', 'view-curriculum', 'view-professors'];
+            views.forEach(id => {
+                const el = document.getElementById(id);
+                if(el) {
+                    el.classList.add('page-exit');
+                    el.classList.remove('page-enter');
+                }
+            });
+        }
+
+        function showView(viewId) {
+            const view = document.getElementById(viewId);
+            view.classList.remove('page-exit');
+            view.classList.add('page-enter');
+            window.scrollTo(0, 0);
+        }
+
+        function goToHome() {
+            hideAllViews();
+            showView('view-home');
+        }
+
+        function goToDetail(id) {
+            if (!detailData[id]) return;
+            hideAllViews();
+            showView('view-detail');
+            const data = detailData[id];
+            document.getElementById('detail-title').innerText = data.title;
+            document.getElementById('detail-desc').innerHTML = data.desc;
+
+            // Map Logic
+            document.querySelectorAll('[id^="map-pin-"]').forEach(el => {
+                el.classList.remove('bg-indigo-600', 'text-white', 'shadow-xl', 'scale-110', 'z-10', 'opacity-100');
+                el.classList.add('bg-stone-300', 'text-stone-500', 'opacity-50', 'scale-90');
+            });
+            
+            const pin = document.getElementById(data.mapId);
+            if(pin) {
+                pin.classList.remove('bg-stone-300', 'text-stone-500', 'opacity-50', 'scale-90');
+                pin.classList.add('bg-indigo-600', 'text-white', 'shadow-xl', 'scale-110', 'z-10', 'opacity-100');
+            }
+        }
+        
+        function goToJobDefense() {
+            hideAllViews();
+            showView('view-job-defense');
+            document.getElementById('job-defense-content').innerHTML = jobDefenseData;
+            lucide.createIcons();
+        }
+
+        function goToCurriculum() {
+            hideAllViews();
+            showView('view-curriculum');
+            document.getElementById('curriculum-content').innerHTML = curriculumData;
+            lucide.createIcons();
+            
+            // Mobile Click Event
+            const cards = document.querySelectorAll('.subject-card');
+            cards.forEach(card => {
+                card.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                });
+            });
+        }
+        
+        function goToProfessors() {
+            hideAllViews();
+            showView('view-professors');
+            renderProfessors();
+        }
+
+        function renderProfessors() {
+            const container = document.getElementById('professor-list');
+            if (!container) return;
+            
+            container.innerHTML = professors.map(p => `
+                <div onclick="openProfessorDetail('${p.id}')" class="bg-stone-50 rounded-2xl p-6 border border-stone-100 hover:shadow-md transition-all cursor-pointer flex items-start gap-4 group">
+                    <div class="w-16 h-16 rounded-full bg-white flex items-center justify-center text-xl font-bold text-indigo-600 shadow-sm group-hover:bg-indigo-600 group-hover:text-white transition-colors">
+                        ${p.name.charAt(0)}
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex justify-between items-start">
+                            <h3 class="text-xl font-bold text-stone-900 mb-1 group-hover:text-indigo-600 transition-colors">${p.name}</h3>
+                            <span class="text-xs bg-indigo-50 text-indigo-600 px-2 py-1 rounded-full font-medium">${p.title}</span>
+                        </div>
+                        <p class="text-sm text-stone-500 mb-2 line-clamp-2">${p.researchSummary}</p>
+                        <p class="text-xs text-stone-400">
+                            ${p.office} <br> ${p.email}
+                        </p>
+                    </div>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        function openProfessorDetail(id) {
+            const p = professors.find(prof => prof.id === id);
+            if (!p) return;
+
+            const modal = document.getElementById('professor-modal');
+            const header = document.getElementById('modal-header');
+            const body = document.getElementById('modal-body');
+
+            header.innerHTML = `
+                <div class="flex items-center gap-4">
+                    <div class="w-16 h-16 rounded-full bg-indigo-100 flex items-center justify-center text-2xl font-bold text-indigo-600">
+                        ${p.name.charAt(0)}
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-bold text-stone-900">${p.name}</h2>
+                        <p class="text-sm text-stone-500">${p.title}</p>
+                    </div>
+                </div>
+                <div class="mt-4 flex flex-wrap gap-2 text-sm text-stone-500">
+                    <span class="flex items-center gap-1 bg-white px-3 py-1 rounded-full border border-stone-200"><i data-lucide="map-pin" class="w-3 h-3"></i> ${p.office}</span>
+                    <span class="flex items-center gap-1 bg-white px-3 py-1 rounded-full border border-stone-200"><i data-lucide="phone" class="w-3 h-3"></i> ${p.phone}</span>
+                    <span class="flex items-center gap-1 bg-white px-3 py-1 rounded-full border border-stone-200"><i data-lucide="mail" class="w-3 h-3"></i> ${p.email}</span>
+                </div>
+            `;
+            
+            body.innerHTML = p.detailHtml;
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            lucide.createIcons();
+        }
+
+        function closeProfessorModal() {
+            const modal = document.getElementById('professor-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        // --- Chat Logic ---
+        const chatWindow = document.getElementById('ai-chat-window');
+        const chatMessages = document.getElementById('chat-messages');
+        const userInput = document.getElementById('user-input');
+        const sendBtn = document.getElementById('send-btn');
+        let isChatOpen = false;
+
+        function toggleChat() {
+            isChatOpen = !isChatOpen;
+            if (isChatOpen) {
+                chatWindow.classList.remove('hidden');
+                chatWindow.classList.remove('chat-exit');
+                chatWindow.classList.add('chat-enter');
+                setTimeout(() => userInput.focus(), 300);
+            } else {
+                chatWindow.classList.remove('chat-enter');
+                chatWindow.classList.add('chat-exit');
+                setTimeout(() => chatWindow.classList.add('hidden'), 300);
+            }
+        }
+
+        function handleKeyPress(e) { if (e.key === 'Enter') sendMessage(); }
+
+        function appendMessage(role, text) {
+            const isUser = role === 'user';
+            const wrapperDiv = document.createElement('div');
+            wrapperDiv.className = `flex gap-3 ${isUser ? 'justify-end' : ''}`;
+            const iconHtml = isUser ? '' : `<div class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 flex-shrink-0"><i data-lucide="bot" class="w-5 h-5"></i></div>`;
+            const messageStyle = isUser ? 'bg-indigo-600 text-white rounded-tr-none' : 'bg-white border border-stone-100 text-stone-700 rounded-tl-none prose-sm';
+            wrapperDiv.innerHTML = `${isUser ? '' : iconHtml}<div class="p-3 rounded-2xl shadow-sm text-sm max-w-[80%] ${messageStyle}">${text}</div>`;
+            chatMessages.appendChild(wrapperDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            lucide.createIcons();
+        }
+
+        function appendLoading() {
+            const loadingDiv = document.createElement('div');
+            loadingDiv.id = 'loading-indicator';
+            loadingDiv.className = 'flex gap-3';
+            loadingDiv.innerHTML = `<div class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 flex-shrink-0"><i data-lucide="bot" class="w-5 h-5"></i></div><div class="bg-white p-3 rounded-2xl rounded-tl-none border border-stone-100 shadow-sm flex items-center gap-1"><div class="w-2 h-2 bg-indigo-400 rounded-full animate-bounce"></div><div class="w-2 h-2 bg-indigo-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></div><div class="w-2 h-2 bg-indigo-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div></div>`;
+            chatMessages.appendChild(loadingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            lucide.createIcons();
+            return loadingDiv;
+        }
+
+        async function sendMessage() {
+            const text = userInput.value.trim();
+            if (!text) return;
+            appendMessage('user', text);
+            userInput.value = '';
+            userInput.disabled = true;
+            sendBtn.disabled = true;
+            const loadingIndicator = appendLoading();
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{ 
+                                text: `You are a helpful senior AI Tutor for "IQE" (Intelligence & Quantum Eng) at a Korean university. Respond in Korean. Be concise. User Query: ${text}` 
+                            }]
+                        }]
+                    })
+                });
+                if (!response.ok) throw new Error('API Error');
+                const data = await response.json();
+                const aiResponse = data.candidates[0].content.parts[0].text;
+                loadingIndicator.remove();
+                const formattedResponse = aiResponse.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
+                appendMessage('ai', formattedResponse);
+            } catch (error) {
+                loadingIndicator.remove();
+                appendMessage('ai', '죄송합니다. 오류가 발생했습니다. 😓');
+            } finally {
+                userInput.disabled = false;
+                sendBtn.disabled = false;
+                userInput.focus();
+            }
+        }
+    </script>
+</body>
+</html>
